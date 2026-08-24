@@ -73,7 +73,7 @@ export function CinematicHero() {
             alt="Fine jewellery — Parasmani Jewellers"
             className="h-full w-full object-cover"
             loading="eager"
-            fetchPriority="high"
+            fetchpriority="high"
           />
         )}
       </div>

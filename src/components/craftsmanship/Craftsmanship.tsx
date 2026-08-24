@@ -15,7 +15,8 @@ export function Craftsmanship() {
     offset: ['start start', 'end end'],
   });
 
-  const stepHeight = 100 / craftsmanshipSteps.length;
+  // scrollYProgress is normalized 0–1, not 0–100
+  const stepHeight = 1 / craftsmanshipSteps.length;
 
   return (
     <section
