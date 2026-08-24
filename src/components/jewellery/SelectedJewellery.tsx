@@ -3,9 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { jewelleryPieces } from '@/config/assets';
 import { siteConfig } from '@/config/site';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useIsTouch } from '@/hooks/useIsTouch';
 import { FadeIn } from '@/components/motion/FadeIn';
-import { ImageReveal } from '@/components/motion/ImageReveal';
 
 export function SelectedJewellery() {
   return (
@@ -52,7 +50,6 @@ function JewelleryCard({
   const reduced = usePrefersReducedMotion();
   const framerReduced = useReducedMotion() ?? false;
   const allReduced = reduced || framerReduced;
-  const isTouch = useIsTouch();
 
   const enquiryHref = `${siteConfig.whatsappHref}?text=${encodeURIComponent(
     `I'd like to enquire about ${piece.name} (${piece.category}).`
@@ -60,59 +57,43 @@ function JewelleryCard({
 
   return (
     <motion.article
-      initial={allReduced ? {} : { opacity: 0, y: 40 }}
+      initial={allReduced ? {} : { opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{
-        duration: 0.8,
-        delay: (index % 3) * 0.12,
+        duration: 0.7,
+        delay: (index % 3) * 0.08,
         ease: [0.22, 1, 0.36, 1],
       }}
       className="group"
     >
-      <div className="relative overflow-hidden aspect-[4/5] bg-ivory-200">
-        <ImageReveal className="h-full w-full">
+      <a
+        href={enquiryHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block"
+        aria-label={`Enquire about ${piece.name}`}
+      >
+        <div className="relative overflow-hidden aspect-[4/5] bg-ivory-200">
           <img
             src={piece.image}
             alt={`${piece.name} — ${piece.category} — Parasmani Jewellers`}
             loading="lazy"
-            className={`h-full w-full object-cover transition-transform duration-[1.2s] ease-out ${
-              isTouch || allReduced ? '' : 'group-hover:scale-[1.05]'
-            }`}
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           />
-        </ImageReveal>
+          <span className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center bg-ivory-50/90 text-charcoal-800 backdrop-blur-sm">
+            <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
+          </span>
+        </div>
 
-        {/* Enquire button on hover */}
-        <a
-          href={enquiryHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`absolute right-4 top-4 flex h-10 w-10 items-center justify-center bg-ivory-50/90 text-charcoal-900 backdrop-blur-sm transition-all duration-500 ${
-            isTouch ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-          }`}
-          aria-label={`Enquire about ${piece.name}`}
-        >
-          <ArrowUpRight className="h-5 w-5" strokeWidth={1.5} />
-        </a>
-      </div>
-
-      {/* Info */}
-      <div className="mt-5">
-        <span className="label-sm text-[10px]">{piece.category}</span>
-        <h3 className="mt-2 font-display text-xl font-light text-charcoal-900">
-          {piece.name}
-        </h3>
-        <p className="mt-2 body-text text-sm">{piece.description}</p>
-        <a
-          href={enquiryHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center gap-2 font-body text-xs font-medium uppercase tracking-wide-lg text-champagne-600 transition-colors duration-300 hover:text-champagne-700"
-        >
-          Enquire
-          <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.5} />
-        </a>
-      </div>
+        <div className="mt-5">
+          <span className="label-sm text-[10px]">{piece.category}</span>
+          <h3 className="mt-2 font-display text-xl font-light text-charcoal-900">
+            {piece.name}
+          </h3>
+          <p className="mt-2 body-text text-sm">{piece.description}</p>
+        </div>
+      </a>
     </motion.article>
   );
 }

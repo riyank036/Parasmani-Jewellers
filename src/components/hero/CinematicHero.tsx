@@ -1,38 +1,16 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import { assets } from '@/config/assets';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useIsTouch } from '@/hooks/useIsTouch';
 
 export function CinematicHero() {
-  const heroRef = useRef<HTMLElement>(null);
   const [videoError, setVideoError] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const reduced = usePrefersReducedMotion();
   const framerReduced = useReducedMotion() ?? false;
-  const isTouch = useIsTouch();
-  const [spotlight, setSpotlight] = useState({ x: 50, y: 40 });
-
   const allReduced = reduced || framerReduced;
-
-  useEffect(() => {
-    if (isTouch || allReduced) return;
-
-    const el = heroRef.current;
-    if (!el) return;
-
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      setSpotlight({ x, y });
-    };
-
-    el.addEventListener('mousemove', onMouseMove);
-    return () => el.removeEventListener('mousemove', onMouseMove);
-  }, [isTouch, allReduced]);
 
   const handleScrollTo = (href: string) => {
     const el = document.querySelector(href);
@@ -42,10 +20,10 @@ export function CinematicHero() {
   };
 
   const showVideo = assets.hero.video && !videoError;
+  const ease = [0.22, 1, 0.36, 1] as const;
 
   return (
     <section
-      ref={heroRef}
       id="hero"
       className="relative flex h-screen min-h-[640px] w-full items-center justify-center overflow-hidden"
     >
@@ -66,7 +44,6 @@ export function CinematicHero() {
           </video>
         )}
 
-        {/* Image: shown as fallback or while video loads */}
         {(!showVideo || !videoLoaded) && (
           <img
             src={assets.hero.image}
@@ -78,61 +55,41 @@ export function CinematicHero() {
         )}
       </div>
 
-      {/* Cinematic overlay: warm gradient + vignette */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-b from-charcoal-900/50 via-charcoal-900/30 to-charcoal-900/70" />
+      {/* Cinematic overlay */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-charcoal-900/60 via-charcoal-900/35 to-charcoal-900/75" />
       <div
         className="absolute inset-0 z-10"
         style={{
           background:
-            'radial-gradient(ellipse at center, transparent 30%, rgba(18, 17, 16, 0.5) 100%)',
+            'radial-gradient(ellipse at center, transparent 25%, rgba(18, 17, 16, 0.55) 100%)',
         }}
       />
 
-      {/* Subtle mouse-reactive spotlight (desktop only) */}
-      {!isTouch && !allReduced && (
-        <div
-          className="absolute inset-0 z-10 transition-opacity duration-1000"
-          style={{
-            background: `radial-gradient(circle 600px at ${spotlight.x}% ${spotlight.y}%, rgba(205, 163, 110, 0.12), transparent 70%)`,
-          }}
-        />
-      )}
-
       {/* Content */}
-      <div className="container-luxury relative z-20 flex flex-col items-center text-center">
-        <motion.div
-          initial={allReduced ? {} : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <span className="font-body text-xs font-medium uppercase tracking-ultra-wide text-ivory-200/80">
-            {siteConfig.name} · Surat, Gujarat
-          </span>
-        </motion.div>
-
+      <div className="container-luxury relative z-20 flex flex-col items-center px-6 text-center sm:px-8">
         <motion.h1
-          initial={allReduced ? {} : { opacity: 0, y: 28 }}
+          initial={allReduced ? {} : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-6 max-w-4xl hero-heading text-4xl text-ivory-50 sm:text-5xl md:text-6xl lg:text-7xl"
+          transition={{ duration: 0.9, delay: 0.15, ease }}
+          className="max-w-4xl hero-heading text-4xl text-ivory-50 sm:text-5xl md:text-6xl lg:text-7xl"
         >
           {siteConfig.tagline}
         </motion.h1>
 
         <motion.p
-          initial={allReduced ? {} : { opacity: 0, y: 20 }}
+          initial={allReduced ? {} : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-8 max-w-xl font-body text-lg font-light leading-relaxed text-ivory-100/80"
+          transition={{ duration: 0.8, delay: 0.35, ease }}
+          className="mt-6 max-w-lg font-body text-base font-light leading-relaxed text-ivory-100/85 sm:mt-8 sm:text-lg"
         >
           {siteConfig.description}
         </motion.p>
 
         <motion.div
-          initial={allReduced ? {} : { opacity: 0, y: 20 }}
+          initial={allReduced ? {} : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-12 flex flex-col items-center gap-4 sm:flex-row sm:gap-6"
+          transition={{ duration: 0.8, delay: 0.5, ease }}
+          className="mt-10 flex w-full max-w-sm flex-col items-stretch gap-3 sm:mt-12 sm:max-w-none sm:flex-row sm:items-center sm:justify-center sm:gap-6"
         >
           <a
             href="#collections"
@@ -140,7 +97,7 @@ export function CinematicHero() {
               e.preventDefault();
               handleScrollTo('#collections');
             }}
-            className="inline-flex items-center justify-center border border-ivory-50 bg-ivory-50 px-9 py-4 font-body text-sm font-medium uppercase tracking-wide-lg text-charcoal-900 transition-all duration-500 hover:bg-transparent hover:text-ivory-50"
+            className="inline-flex items-center justify-center border border-ivory-50 bg-ivory-50 px-8 py-3.5 font-body text-sm font-medium uppercase tracking-wide-lg text-charcoal-900 transition-colors duration-300 hover:bg-transparent hover:text-ivory-50"
           >
             Explore Collections
           </a>
@@ -150,7 +107,7 @@ export function CinematicHero() {
               e.preventDefault();
               handleScrollTo('#showroom');
             }}
-            className="inline-flex items-center justify-center border border-ivory-200/40 px-9 py-4 font-body text-sm font-medium uppercase tracking-wide-lg text-ivory-50 transition-all duration-500 hover:border-ivory-50"
+            className="inline-flex items-center justify-center border border-ivory-200/50 px-8 py-3.5 font-body text-sm font-medium uppercase tracking-wide-lg text-ivory-50 transition-colors duration-300 hover:border-ivory-50"
           >
             Visit Us
           </a>
@@ -162,21 +119,18 @@ export function CinematicHero() {
         className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2"
         initial={allReduced ? {} : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.6 }}
+        transition={{ duration: 0.6, delay: 0.8 }}
+        aria-hidden="true"
       >
         <motion.div
-          animate={
-            allReduced
-              ? {}
-              : { y: [0, 8, 0] }
-          }
+          animate={allReduced ? {} : { y: [0, 6, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
           className="flex flex-col items-center gap-2"
         >
-          <span className="font-body text-[10px] uppercase tracking-ultra-wide text-ivory-200/60">
+          <span className="font-body text-[10px] uppercase tracking-ultra-wide text-ivory-200/50">
             Scroll
           </span>
-          <ChevronDown className="h-4 w-4 text-ivory-200/60" strokeWidth={1.5} />
+          <ChevronDown className="h-4 w-4 text-ivory-200/50" strokeWidth={1.5} />
         </motion.div>
       </motion.div>
     </section>

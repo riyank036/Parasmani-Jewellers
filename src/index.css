@@ -25,6 +25,16 @@
     @apply font-display;
     font-feature-settings: 'kern', 'liga';
   }
+
+  a:focus-visible,
+  button:focus-visible {
+    @apply outline-none ring-2 ring-champagne-400 ring-offset-2 ring-offset-ivory-50;
+  }
+
+  #contact a:focus-visible,
+  #craftsmanship a:focus-visible {
+    @apply ring-offset-charcoal-900;
+  }
 }
 
 @layer utilities {
@@ -49,7 +59,7 @@
   }
 
   .hero-heading {
-    @apply font-display font-light text-charcoal-900;
+    @apply font-display font-light;
     line-height: 1.05;
     letter-spacing: -0.02em;
   }

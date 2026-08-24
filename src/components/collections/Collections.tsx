@@ -1,5 +1,4 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
 import { collections, type Collection } from '@/config/assets';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useIsTouch } from '@/hooks/useIsTouch';
@@ -109,13 +108,9 @@ function CollectionCard({
         <h3 className="mt-2 font-display text-2xl font-light text-ivory-50 lg:text-3xl">
           {collection.name}
         </h3>
-        <p className="mt-2 max-w-xs font-body text-sm font-light leading-relaxed text-ivory-200/75">
+        <p className="mt-2 max-w-xs font-body text-sm font-light leading-relaxed text-ivory-200/80">
           {collection.description}
         </p>
-        <div className="mt-5 flex items-center gap-2 font-body text-xs font-medium uppercase tracking-wide-lg text-ivory-50 opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:[translate-y:0] [translate-y:2px]">
-          Explore Collection
-          <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
-        </div>
       </div>
     </motion.div>
   );

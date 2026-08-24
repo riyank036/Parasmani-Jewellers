@@ -24,11 +24,11 @@ export function ImageReveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
-      whileInView={{ opacity: 1, clipPath: 'inset(0 0 0% 0)' }}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once, margin: '-60px' }}
       transition={{
-        duration: 1.2,
+        duration: 0.9,
         ease: [0.22, 1, 0.36, 1],
       }}
     >

@@ -1,10 +1,9 @@
-import { Instagram, Facebook, MapPin, Phone, MessageCircle, Mail } from 'lucide-react';
+import { Instagram, MapPin, Phone, MessageCircle, Mail } from 'lucide-react';
 import { siteConfig, navigation, getFullAddress } from '@/config/site';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 const iconMap: Record<string, typeof Instagram> = {
-  instagram: Instagram,
-  facebook: Facebook,
+  instagram: Instagram
 };
 
 export function Footer() {

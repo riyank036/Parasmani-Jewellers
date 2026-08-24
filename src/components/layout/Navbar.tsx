@@ -75,7 +75,6 @@ export function Navbar() {
                 scrolled ? 'text-champagne-600' : 'text-ivory-200/70'
               }`}
             >
-              Surat · Gujarat
             </span>
           </a>
 
@@ -128,17 +127,30 @@ export function Navbar() {
             </a>
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setMenuOpen(true)}
-            className={`lg:hidden transition-colors duration-500 ${
-              scrolled ? 'text-charcoal-900' : 'text-ivory-50'
-            }`}
-            aria-label="Open menu"
-            aria-expanded={menuOpen}
-          >
-            <Menu className="h-6 w-6" strokeWidth={1.5} />
-          </button>
+          {/* Mobile actions + menu */}
+          <div className="flex items-center gap-4 lg:hidden">
+            <a
+              href={siteConfig.whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp us"
+              className={`transition-colors duration-500 ${
+                scrolled ? 'text-charcoal-700' : 'text-ivory-100/90'
+              }`}
+            >
+              <MessageCircle className="h-5 w-5" strokeWidth={1.5} />
+            </a>
+            <button
+              onClick={() => setMenuOpen(true)}
+              className={`transition-colors duration-500 ${
+                scrolled ? 'text-charcoal-900' : 'text-ivory-50'
+              }`}
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+            >
+              <Menu className="h-6 w-6" strokeWidth={1.5} />
+            </button>
+          </div>
         </nav>
       </header>
 

@@ -1,15 +1,10 @@
-import { motion, useReducedMotion } from 'framer-motion';
 import { MapPin, Navigation, MessageCircle, Phone } from 'lucide-react';
 import { siteConfig, getFullAddress } from '@/config/site';
 import { assets } from '@/config/assets';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { ImageReveal } from '@/components/motion/ImageReveal';
 
 export function Showroom() {
-  const reduced = usePrefersReducedMotion();
-  const framerReduced = useReducedMotion() ?? false;
-  const allReduced = reduced || framerReduced;
   const address = getFullAddress(siteConfig);
 
   return (
@@ -50,32 +45,34 @@ export function Showroom() {
             </FadeIn>
 
             <FadeIn delay={0.15}>
-              <div className="flex flex-col gap-4 sm:flex-row">
+              <div className="flex flex-col gap-3">
                 <a
                   href={siteConfig.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 border border-charcoal-900 bg-charcoal-900 px-7 py-3.5 font-body text-sm font-medium uppercase tracking-wide-lg text-ivory-50 transition-all duration-500 hover:bg-charcoal-800"
+                  className="inline-flex w-full items-center justify-center gap-2 border border-charcoal-900 bg-charcoal-900 px-7 py-3.5 font-body text-sm font-medium uppercase tracking-wide-lg text-ivory-50 transition-colors duration-300 hover:bg-charcoal-800 sm:w-auto"
                 >
                   <Navigation className="h-4 w-4" strokeWidth={1.5} />
                   Get Directions
                 </a>
-                <a
-                  href={siteConfig.whatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 border border-charcoal-300 px-7 py-3.5 font-body text-sm font-medium uppercase tracking-wide-lg text-charcoal-700 transition-all duration-500 hover:border-charcoal-900 hover:text-charcoal-900"
-                >
-                  <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
-                  WhatsApp Us
-                </a>
-                <a
-                  href={siteConfig.phoneHref}
-                  className="inline-flex items-center justify-center gap-2 border border-charcoal-300 px-7 py-3.5 font-body text-sm font-medium uppercase tracking-wide-lg text-charcoal-700 transition-all duration-500 hover:border-charcoal-900 hover:text-charcoal-900"
-                >
-                  <Phone className="h-4 w-4" strokeWidth={1.5} />
-                  Call Us
-                </a>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <a
+                    href={siteConfig.whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex w-full items-center justify-center gap-2 border border-charcoal-300 px-7 py-3.5 font-body text-sm font-medium uppercase tracking-wide-lg text-charcoal-700 transition-colors duration-300 hover:border-charcoal-900 hover:text-charcoal-900 sm:w-auto"
+                  >
+                    <MessageCircle className="h-4 w-4" strokeWidth={1.5} />
+                    WhatsApp Us
+                  </a>
+                  <a
+                    href={siteConfig.phoneHref}
+                    className="inline-flex w-full items-center justify-center gap-2 border border-charcoal-300 px-7 py-3.5 font-body text-sm font-medium uppercase tracking-wide-lg text-charcoal-700 transition-colors duration-300 hover:border-charcoal-900 hover:text-charcoal-900 sm:w-auto"
+                  >
+                    <Phone className="h-4 w-4" strokeWidth={1.5} />
+                    Call Us
+                  </a>
+                </div>
               </div>
             </FadeIn>
 
@@ -96,7 +93,7 @@ export function Showroom() {
 
           {/* Right: Google Map */}
           <FadeIn delay={0.2}>
-            <div className="relative h-full min-h-[400px] overflow-hidden border border-charcoal-100">
+            <div className="relative min-h-[320px] overflow-hidden border border-charcoal-100 sm:min-h-[400px] lg:min-h-[480px]">
               <GoogleMap />
             </div>
           </FadeIn>
@@ -107,26 +104,18 @@ export function Showroom() {
 }
 
 function GoogleMap() {
-  const reduced = usePrefersReducedMotion();
-  const framerReduced = useReducedMotion() ?? false;
-  const allReduced = reduced || framerReduced;
-
   const embedSrc = `https://www.google.com/maps?q=${encodeURIComponent(
     siteConfig.mapsEmbedQuery
   )}&output=embed`;
 
   return (
-    <motion.iframe
+    <iframe
       title="Parasmani Jewellers location map"
       src={embedSrc}
       className="absolute inset-0 h-full w-full"
       style={{ border: 0 }}
       loading="lazy"
       referrerPolicy="no-referrer-when-downgrade"
-      initial={allReduced ? {} : { opacity: 0, scale: 1.02 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
     />
   );
 }

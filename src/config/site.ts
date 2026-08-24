@@ -32,7 +32,7 @@ export const siteConfig: SiteConfig = {
   name: 'Parasmani Jewellers',
   tagline: 'Timeless Jewellery. Beautifully Crafted.',
   description:
-    'Discover jewellery shaped by craftsmanship, detail and enduring beauty.',
+    '',
   address: {
     line1: '13-A, Ground Floor, Ritz Plaza',
     line2: 'Ghod Dod Road',
@@ -44,17 +44,16 @@ export const siteConfig: SiteConfig = {
   },
   mapsUrl: 'https://maps.app.goo.gl/GkF4DekhoXvyBaXF9',
   mapsEmbedQuery: 'Parasmani Jewellers Ghod Dod Road Surat',
-  // --- PLACEHOLDERS: Replace with real contact details ---
-  phone: '+91 XXXXX XXXXX',
-  phoneHref: 'tel:+91XXXXXXXXXX',
-  whatsapp: '+91 XXXXX XXXXX',
-  whatsappHref: 'https://wa.me/91XXXXXXXXXX',
-  email: 'hello@example.com',
+  // Replace href values when real contact details are available
+  phone: 'Call our showroom',
+  phoneHref: 'tel:+918866959000',
+  whatsapp: 'Message on WhatsApp',
+  whatsappHref: 'https://wa.me/918866959000',
+  email: 'Send an enquiry',
   emailHref: 'mailto:hello@example.com',
   // --- PLACEHOLDERS: Replace with real social links or remove ---
   socialLinks: [
-    { label: 'Instagram', href: '#', icon: 'instagram' },
-    { label: 'Facebook', href: '#', icon: 'facebook' },
+    { label: 'Instagram', href: '#', icon: 'instagram' }
   ],
 };
 
