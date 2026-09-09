@@ -21,10 +21,11 @@ export interface AssetConfig {
 // Photos are from Pexels (free to use). Replace with your own assets anytime.
 export const assets: AssetConfig = {
   hero: {
-    // Set to a local video path like '/videos/jewellery-hero.mp4' when available
-    video: null,
+    // Replace /public/videos/jewellery-hero.mp4 with your own jewellery film
+    video: '/videos/jewellery-hero.mp4',
+    // Poster image shown while video loads or if video fails
     image:
-      'https://images.pexels.com/photos/24815712/pexels-photo-24815712.jpeg?auto=compress&cs=tinysrgb&w=1920',
+      'https://images.pexels.com/photos/17368716/pexels-photo-17368716.jpeg?auto=compress&cs=tinysrgb&w=1920',
   },
   collections: {
     gold: 'https://images.pexels.com/photos/4889719/pexels-photo-4889719.jpeg?auto=compress&cs=tinysrgb&w=1200',

@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import { collections, type Collection } from '@/config/assets';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useIsTouch } from '@/hooks/useIsTouch';
@@ -76,7 +77,9 @@ function CollectionCard({
 
   return (
     <motion.div
-      className={`group relative overflow-hidden ${layoutClasses[index]} ${aspectClasses[collection.aspect]}`}
+      className={`group relative overflow-hidden ${layoutClasses[index]} ${aspectClasses[collection.aspect]} ${
+        isTouch ? 'active:scale-[0.98] transition-transform duration-200' : ''
+      }`}
       initial={reduced ? {} : { opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
@@ -91,14 +94,22 @@ function CollectionCard({
           src={collection.image}
           alt={`${collection.name} collection — Parasmani Jewellers`}
           loading="lazy"
-          className={`h-full w-full object-cover transition-transform duration-[1.2s] ease-out ${
-            isTouch || reduced ? '' : 'group-hover:scale-[1.04]'
+          className={`h-full w-full object-cover transition-transform ease-out ${
+            isTouch
+              ? 'duration-[1.2s] scale-[1.02]'
+              : reduced
+                ? ''
+                : 'duration-[1.2s] group-hover:scale-[1.04]'
           }`}
         />
       </ImageReveal>
 
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900/70 via-charcoal-900/15 to-transparent transition-opacity duration-700 group-hover:from-charcoal-900/80" />
+      <div
+        className={`absolute inset-0 bg-gradient-to-t from-charcoal-900/75 via-charcoal-900/15 to-transparent transition-opacity duration-700 ${
+          isTouch ? '' : 'group-hover:from-charcoal-900/85'
+        }`}
+      />
 
       {/* Content */}
       <div className="absolute inset-x-0 bottom-0 p-6 lg:p-8">
@@ -108,9 +119,23 @@ function CollectionCard({
         <h3 className="mt-2 font-display text-2xl font-light text-ivory-50 lg:text-3xl">
           {collection.name}
         </h3>
-        <p className="mt-2 max-w-xs font-body text-sm font-light leading-relaxed text-ivory-200/80">
+        <p
+          className={`mt-2 max-w-xs font-body text-sm font-light leading-relaxed text-ivory-200/80 ${
+            isTouch ? 'opacity-100' : 'opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:[translate-y:0] [translate-y:2px]'
+          }`}
+        >
           {collection.description}
         </p>
+        <div
+          className={`mt-5 flex items-center gap-2 font-body text-xs font-medium uppercase tracking-wide-lg text-ivory-50 ${
+            isTouch
+              ? 'opacity-100'
+              : 'opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:[translate-y:0] [translate-y:2px]'
+          }`}
+        >
+          Explore Collection
+          <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
+        </div>
       </div>
     </motion.div>
   );

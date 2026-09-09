@@ -2,21 +2,23 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { craftsmanshipSteps } from '@/config/assets';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { FadeIn } from '@/components/motion/FadeIn';
+import { useDeviceCapabilities } from '@/hooks/useDeviceCapabilities';
 
 export function Craftsmanship() {
   const sectionRef = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
   const framerReduced = useReducedMotion() ?? false;
   const allReduced = reduced || framerReduced;
+  const caps = useDeviceCapabilities();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end end'],
   });
 
-  // scrollYProgress is normalized 0–1, not 0–100
   const stepHeight = 1 / craftsmanshipSteps.length;
+
+  const useDesktopSticky = caps.isDesktop && !allReduced;
 
   return (
     <section
@@ -26,16 +28,17 @@ export function Craftsmanship() {
     >
       {/* Sticky container on desktop */}
       <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:items-center lg:overflow-hidden">
-        {/* Mobile: simple vertical sequence */}
+        {/* Mobile/tablet: cinematic scroll-triggered sequence */}
         <div className="py-24 lg:py-0 lg:hidden">
           <div className="container-luxury">
             <span className="label-sm text-champagne-400">The Process</span>
-            <h2 className="mt-4 font-display text-4xl font-light text-ivory-50 lg:text-5xl">
+            <h2 className="mt-4 font-display text-4xl font-light text-ivory-50">
               Craftsmanship
             </h2>
-            <div className="mt-16 space-y-20">
-              {craftsmanshipSteps.map((step, i) => (
-                <MobileStep key={step.number} step={step} index={i} />
+            <div className="mt-4 h-px w-16 bg-champagne-400" />
+            <div className="mt-16 space-y-24">
+              {craftsmanshipSteps.map((step) => (
+                <MobileStep key={step.number} step={step} reduced={allReduced} />
               ))}
             </div>
           </div>
@@ -58,7 +61,7 @@ export function Craftsmanship() {
               <div className="absolute left-0 top-1/2 h-32 w-px -translate-y-1/2 bg-charcoal-700">
                 <motion.div
                   className="h-full w-full origin-top bg-champagne-400"
-                  style={{ scaleY: scrollYProgress }}
+                  style={useDesktopSticky ? { scaleY: scrollYProgress } : {}}
                 />
               </div>
 
@@ -100,29 +103,41 @@ export function Craftsmanship() {
 
 function MobileStep({
   step,
-  index,
+  reduced,
 }: {
   step: (typeof craftsmanshipSteps)[number];
-  index: number;
+  reduced: boolean;
 }) {
   return (
-    <FadeIn delay={index * 0.05}>
+    <motion.div
+      initial={reduced ? {} : { opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.8, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+    >
       <div className="flex gap-6">
         <div className="flex flex-col items-center">
           <span className="font-display text-3xl font-light text-champagne-400">
             {step.number}
           </span>
-          <div className="mt-2 h-16 w-px bg-charcoal-700" />
+          <div className="mt-2 h-20 w-px bg-charcoal-700" />
         </div>
         <div className="flex-1">
-          <div className="mb-4 aspect-[4/3] overflow-hidden">
+          <motion.div
+            className="relative mb-5 aspect-[4/3] overflow-hidden"
+            initial={reduced ? {} : { opacity: 0, scale: 1.05 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          >
             <img
               src={step.image}
               alt={`${step.title} — Parasmani Jewellers craftsmanship`}
               loading="lazy"
               className="h-full w-full object-cover"
             />
-          </div>
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal-900/40 via-transparent to-charcoal-900/15" />
+          </motion.div>
           <h3 className="font-display text-2xl font-light text-ivory-50">
             {step.title}
           </h3>
@@ -131,7 +146,7 @@ function MobileStep({
           </p>
         </div>
       </div>
-    </FadeIn>
+    </motion.div>
   );
 }
 
@@ -194,12 +209,18 @@ function DesktopStepImage({
   const scale = useTransform(progress, [start, end], [1.08, 1]);
 
   return (
-    <motion.img
-      src={step.image}
-      alt={`${step.title} — Parasmani Jewellers craftsmanship`}
-      loading="lazy"
-      className="absolute inset-0 h-full w-full object-cover"
-      style={reduced ? {} : { opacity, scale }}
-    />
+    <motion.div
+      className="absolute inset-0 h-full w-full"
+      style={reduced ? {} : { opacity }}
+    >
+      <motion.img
+        src={step.image}
+        alt={`${step.title} — Parasmani Jewellers craftsmanship`}
+        loading="lazy"
+        className="h-full w-full object-cover"
+        style={reduced ? {} : { scale }}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal-900/50 via-transparent to-charcoal-900/20" />
+    </motion.div>
   );
 }

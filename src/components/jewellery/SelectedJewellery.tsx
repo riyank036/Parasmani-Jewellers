@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { jewelleryPieces } from '@/config/assets';
 import { siteConfig } from '@/config/site';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useIsTouch } from '@/hooks/useIsTouch';
 import { FadeIn } from '@/components/motion/FadeIn';
 
 export function SelectedJewellery() {
@@ -50,6 +51,7 @@ function JewelleryCard({
   const reduced = usePrefersReducedMotion();
   const framerReduced = useReducedMotion() ?? false;
   const allReduced = reduced || framerReduced;
+  const isTouch = useIsTouch();
 
   const enquiryHref = `${siteConfig.whatsappHref}?text=${encodeURIComponent(
     `I'd like to enquire about ${piece.name} (${piece.category}).`
@@ -74,12 +76,22 @@ function JewelleryCard({
         className="block"
         aria-label={`Enquire about ${piece.name}`}
       >
-        <div className="relative overflow-hidden aspect-[4/5] bg-ivory-200">
+        <div
+          className={`relative overflow-hidden aspect-[4/5] bg-ivory-200 ${
+            isTouch ? 'active:scale-[0.98] transition-transform duration-200' : ''
+          }`}
+        >
           <img
             src={piece.image}
             alt={`${piece.name} — ${piece.category} — Parasmani Jewellers`}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            className={`h-full w-full object-cover transition-transform duration-700 ease-out ${
+              isTouch
+                ? 'scale-[1.02]'
+                : allReduced
+                  ? ''
+                  : 'group-hover:scale-[1.03]'
+            }`}
           />
           <span className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center bg-ivory-50/90 text-charcoal-800 backdrop-blur-sm">
             <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
