@@ -22,7 +22,7 @@ export interface AssetConfig {
 export const assets: AssetConfig = {
   hero: {
     // Replace /public/videos/jewellery-hero.mp4 with your own jewellery film
-    video: '/videos/jewellery-hero.mp4',
+    video: '/videos/jewellery-hero2.mp4',
     // Poster image shown while video loads or if video fails
     image:
       'https://images.pexels.com/photos/17368716/pexels-photo-17368716.jpeg?auto=compress&cs=tinysrgb&w=1920',

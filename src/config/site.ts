@@ -44,16 +44,14 @@ export const siteConfig: SiteConfig = {
   },
   mapsUrl: 'https://maps.app.goo.gl/GkF4DekhoXvyBaXF9',
   mapsEmbedQuery: 'Parasmani Jewellers Ghod Dod Road Surat',
-  // Replace href values when real contact details are available
   phone: 'Call our showroom',
   phoneHref: 'tel:+918866959000',
   whatsapp: 'Message on WhatsApp',
   whatsappHref: 'https://wa.me/918866959000',
   email: 'Send an enquiry',
   emailHref: 'mailto:hello@example.com',
-  // --- PLACEHOLDERS: Replace with real social links or remove ---
   socialLinks: [
-    { label: 'Instagram', href: '#', icon: 'instagram' }
+    { label: 'Instagram', href: 'https://www.instagram.com/parasmanijewellers_surat?igsi=dHVnYTJtMWJlbDJm', icon: 'instagram' }
   ],
 };
 

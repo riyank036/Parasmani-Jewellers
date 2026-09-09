@@ -134,7 +134,7 @@ export function CinematicHero() {
           transition={{ duration: 0.9, delay: 0.2, ease }}
         >
           <span className="font-body text-xs font-medium uppercase tracking-ultra-wide text-ivory-200/75">
-            {siteConfig.name} · Surat, Gujarat
+            
           </span>
         </motion.div>
 
